@@ -1,6 +1,6 @@
 # isilo
 
-A new Flutter project.
+Projeto desenvolvido em flutter para a materia de Desenvolvimento de Aplicações moveis e distribuidas
 
 ## Getting Started
 
