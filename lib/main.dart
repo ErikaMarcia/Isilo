@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_map/flutter_map.dart';
+import 'package:isilo/screens/mark_isilo.dart';
 import 'package:latlong2/latlong.dart';
 
 void main() {
@@ -49,7 +50,12 @@ class _MyAppState extends State<MyApp> {
       ],
     ))),
       floatingActionButton: FloatingActionButton(
-      onPressed: (){},
+      onPressed: (){
+        Navigator.push(
+          context,
+          MaterialPageRoute(builder: (context) => MarkIsilo())
+        );
+      },
       tooltip: 'Increment',
       child: const Icon(Icons.add),
     ),)
