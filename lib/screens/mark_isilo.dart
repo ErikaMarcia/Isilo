@@ -18,10 +18,11 @@ class _MarkIsilo extends State<MarkIsilo> {
     marker = [
       Marker(
           point: LatLng(-19.9381372, -43.9343437),
-          builder: (ctx) => Icon(Icons.pin_drop)),
-      Marker(
-          point: LatLng(-18.9381372, -42.9343437),
-          builder: (ctx) => Icon(Icons.pin_drop))
+    builder: (ctx) => new Container(
+    child: IconButton(
+    icon: Icon(Icons.pin_drop),
+    color: Color(0xFF6200ee),
+    iconSize: 45, onPressed: () { },)))
     ];
 
     return Scaffold(

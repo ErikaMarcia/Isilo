@@ -62,6 +62,7 @@ class _RegisterIsiloState extends State<RegisterIsilo> {
                 SizedBox(height: height * 0.05),
                 TextFormField(
                   decoration: InputDecoration(labelText: 'Número do WhatsApp'),
+                  keyboardType: TextInputType.number,
                   validator: (value) {
                     if (value!.isEmpty ||
                         !RegExp(r'^[+]*[(]{0,1}[0-9]{1,4}[)]{0,1}[-\s\./0-9]+$')
