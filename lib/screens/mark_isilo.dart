@@ -18,17 +18,18 @@ class _MarkIsilo extends State<MarkIsilo> {
     marker = [
       Marker(
           point: LatLng(-19.9381372, -43.9343437),
-    builder: (ctx) => new Container(
-    child: IconButton(
-    icon: Icon(Icons.pin_drop),
-    color: Color(0xFF6200ee),
-    iconSize: 45, onPressed: () { },)))
+          width: 60,
+          height: 60,
+          builder: (ctx) => IconButton(
+                icon: Image.asset("../../assets/logo.png"),
+                iconSize: 45,
+                onPressed: () {},
+              ))
     ];
 
     return Scaffold(
       body: Center(
-          child: Container(
-              child: Column(
+          child: Column(
         children: [
           Flexible(
             child: FlutterMap(
@@ -46,17 +47,14 @@ class _MarkIsilo extends State<MarkIsilo> {
             ),
           )
         ],
-      ))),
+      )),
       floatingActionButton: FloatingActionButton.extended(
-        onPressed: () {
-          Navigator.push(
-              context,
-              MaterialPageRoute(builder: (context) => RegisterIsilo())
-          );
-        },
-        tooltip: 'Increment',
-        label: Text('Cadastrar iSilo')
-      ),
+          onPressed: () {
+            Navigator.push(context,
+                MaterialPageRoute(builder: (context) => const RegisterIsilo()));
+          },
+          tooltip: 'Increment',
+          label: const Text('Cadastrar iSilo')),
     );
   }
 }
