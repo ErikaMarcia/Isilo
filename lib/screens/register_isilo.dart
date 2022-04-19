@@ -129,9 +129,9 @@ class _RegisterIsiloState extends State<RegisterIsilo> {
         ),
         floatingActionButton: FloatingActionButton.extended(
           onPressed: () {
+            final snackBar = SnackBar(content: Text('Olhe o formulário'));
+            _scaffoldKey.currentState!.showSnackBar(snackBar);
             if (formKey.currentState!.validate()) {
-              final snackBar = SnackBar(content: Text('Olhe o formulário'));
-              _scaffoldKey.currentState!.showSnackBar(snackBar);
               Navigator.push(context,
                   MaterialPageRoute(builder: (context) => const MyApp()));
             }
