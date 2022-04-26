@@ -1,11 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:isilo/screens/home_screen.dart';
+import 'package:isilo/screens/welcome.dart';
 
 void main() {
   runApp(const MyApp());
 }
 
-class MyApp extends StatelessWidget  {
+class MyApp extends StatelessWidget {
   const MyApp({Key? key}) : super(key: key);
 
   @override
@@ -15,9 +16,7 @@ class MyApp extends StatelessWidget  {
       debugShowCheckedModeBanner: false,
       theme: ThemeData.light(),
       darkTheme: ThemeData.dark(),
-      home: const HomeScreen(),
+      home: const Welcome(),
     );
   }
-
 }
-
