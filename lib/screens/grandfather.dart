@@ -21,11 +21,14 @@ class _GrandfatherState extends State<Grandfather> {
             Column(
               crossAxisAlignment: CrossAxisAlignment.end,
               children: const [
-                Text("Escolha um \nIsilo no mapa \ne faça uma visita",
-                    style: TextStyle(
-                        fontSize: 28,
-                        fontWeight: FontWeight.w700,
-                        color: Color(0XFF0089A5)))
+                Padding(
+                  padding: EdgeInsets.only(top: 40.0),
+                  child: Text("Escolha um \nIsilo no mapa \ne faça uma visita",
+                      style: TextStyle(
+                          fontSize: 28,
+                          fontWeight: FontWeight.w700,
+                          color: Color(0XFF0089A5))),
+                )
               ],
             )
           ],
