@@ -25,7 +25,8 @@ class _RegisterIsiloState extends State<RegisterIsilo> {
           elevation: 0,
         ),
         backgroundColor: const Color(0xFFffffff),
-        body: Container(
+        body: SingleChildScrollView(
+            child: Container(
           padding: const EdgeInsets.only(left: 40, right: 40),
           child: Form(
             key: formKey, //key for form
@@ -126,7 +127,7 @@ class _RegisterIsiloState extends State<RegisterIsilo> {
               ],
             ),
           ),
-        ),
+        )),
         floatingActionButton: FloatingActionButton.extended(
           onPressed: () {
             final snackBar = SnackBar(content: Text('Olhe o formulário'));
