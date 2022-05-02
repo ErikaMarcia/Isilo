@@ -1,14 +1,14 @@
 import 'package:flutter/material.dart';
-import 'package:isilo/screens/grandfather.dart';
+import 'package:isilo/screens/home_screen.dart';
 
-class Welcome extends StatefulWidget {
-  const Welcome({Key? key}) : super(key: key);
+class Grandfather extends StatefulWidget {
+  const Grandfather({Key? key}) : super(key: key);
 
   @override
-  State<Welcome> createState() => _WelcomeState();
+  State<Grandfather> createState() => _GrandfatherState();
 }
 
-class _WelcomeState extends State<Welcome> {
+class _GrandfatherState extends State<Grandfather> {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -17,18 +17,15 @@ class _WelcomeState extends State<Welcome> {
       children: [
         Column(
           children: [
-            Center(child: Image.asset("../../assets/world.png")),
+            Center(child: Image.asset("../../assets/gradfather.png")),
             Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
+              crossAxisAlignment: CrossAxisAlignment.end,
               children: const [
-                Text("Leve \nfelicidade \npara o \nmundo",
+                Text("Escolha um \nIsilo no mapa \ne faça uma visita",
                     style: TextStyle(
-                        fontSize: 48,
+                        fontSize: 28,
                         fontWeight: FontWeight.w700,
-                        color: Color(0XFF0089A5))),
-                Text("Visite asilos e mude o \ndia de muitas pessoas",
-                    textAlign: TextAlign.justify,
-                    style: TextStyle(fontSize: 16, color: Color(0XFF0089A5)))
+                        color: Color(0XFF0089A5)))
               ],
             )
           ],
@@ -36,7 +33,7 @@ class _WelcomeState extends State<Welcome> {
         Row(
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
           children: [
-            Center(child: Image.asset("../../assets/leftDetail.png")),
+            Center(child: Image.asset("../../assets/rightDetail.png")),
             IconButton(
               icon: const Icon(
                 Icons.arrow_right_alt_outlined,
@@ -47,7 +44,7 @@ class _WelcomeState extends State<Welcome> {
                 Navigator.push(
                     context,
                     MaterialPageRoute(
-                        builder: (context) => const Grandfather()));
+                        builder: (context) => const HomeScreen()));
               },
             )
           ],

@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:isilo/screens/home_screen.dart';
 import 'package:isilo/screens/welcome.dart';
 
 void main() {
