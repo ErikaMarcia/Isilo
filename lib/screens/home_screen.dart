@@ -17,8 +17,8 @@ class HomeScreen extends StatelessWidget {
         children: [
           Flexible(
             child: FlutterMap(
-              options:
-                  MapOptions(center: LatLng(-19.9381372, -43.9343437), zoom: 8),
+              options: MapOptions(
+                  center: LatLng(-19.9381372, -43.9343437), zoom: 12),
               layers: [
                 TileLayerOptions(
                     urlTemplate:
