@@ -134,7 +134,7 @@ class _RegisterIsiloState extends State<RegisterIsilo> {
             _scaffoldKey.currentState!.showSnackBar(snackBar);
             if (formKey.currentState!.validate()) {
               Navigator.push(context,
-                  MaterialPageRoute(builder: (context) => const MyApp()));
+                  MaterialPageRoute(builder: (context) => MyApp()));
             }
           },
           tooltip: 'Increment',

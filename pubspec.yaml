@@ -1,9 +1,7 @@
 name: isilo
 description: A new Flutter project.
 
-# The following line prevents the package from being accidentally published to
-# pub.dev using `flutter pub publish`. This is preferred for private packages.
-publish_to: 'none' # Remove this line if you wish to publish to pub.dev
+publish_to: 'none'
 
 # The following defines the version and build number for your application.
 # A version number is three numbers separated by dots, like 1.2.43
@@ -38,6 +36,8 @@ dependencies:
   latlong: ^0.6.1
   latlng: ^0.1.0
   url_launcher: ^6.1.0
+  sqflite: ^2.0.2+1
+  floor: ^1.2.0
 
 dev_dependencies:
   flutter_test:
@@ -49,6 +49,13 @@ dev_dependencies:
   # package. See that file for information about deactivating specific lint
   # rules and activating additional ones.
   flutter_lints: ^1.0.0
+  floor_generator: ^1.2.0
+  build_runner: ^2.1.2
+ 
+
+dependency_overrides:
+  build_runner: ^1.11.5
+  floor_generator: ^1.0.0
 
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec
