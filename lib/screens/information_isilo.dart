@@ -4,7 +4,6 @@ import 'package:latlong2/latlong.dart';
 import 'package:flutter_map/flutter_map.dart';
 import 'package:url_launcher/url_launcher.dart';
 
-
 class InformationIsilo extends StatefulWidget {
   const InformationIsilo({Key? key}) : super(key: key);
 
@@ -98,19 +97,27 @@ class _InformationIsiloState extends State<InformationIsilo> {
                               MarkerLayerOptions(
                                 markers: [
                                   Marker(
-                                    width: 80,
-                                    height: 80,
-                                    point: LatLng(-19.9381372, -43.9343437),
-                                    builder: (ctx) => InkWell(
-                                        child: Image.asset(
-                                            "../../assets/logo.png", width: 45),
-                                        onTap: () => launchUrl(Uri.parse("https://www.google.com/maps/dir/?api=1&destination=-19.9381372,-43.9343437")))
-                                  )
+                                      width: 80,
+                                      height: 80,
+                                      point: LatLng(-19.9381372, -43.9343437),
+                                      builder: (ctx) => InkWell(
+                                          child: Image.asset(
+                                              "../../assets/logo.png",
+                                              width: 45),
+                                          onTap: () => launchUrl(Uri.parse(
+                                              "https://www.google.com/maps/dir/?api=1&destination=-19.9381372,-43.9343437"))))
                                 ],
                               ),
                             ],
                           ),
                           onPressed: () {}))),
+              const Divider(
+                height: 20,
+                thickness: 1,
+                indent: 40,
+                endIndent: 40,
+                color: Color.fromARGB(255, 196, 196, 196),
+              ),
               const Center(
                 heightFactor: 2,
                 child: Text('WhatsApp: (31) 99999-9999',
