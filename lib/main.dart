@@ -1,17 +1,19 @@
 import 'package:flutter/material.dart';
 import 'package:isilo/db/database.dart';
+import 'package:isilo/entitys/asylum.dart';
 import 'package:isilo/screens/welcome.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   runApp(MyApp(
-    db: await $FloorAppDatabase.databaseBuilder('app_database.db').build(),
+    db: await $FloorAsylumDatabase.databaseBuilder('aslum_database.db').build(),
   ));
+  
 }
 
 class MyApp extends StatelessWidget {
   const MyApp({Key? key, this.db}) : super(key: key);
-  final AppDatabase? db;
+  final AsylumDatabase? db;
 
   @override
   Widget build(BuildContext context) {
@@ -20,7 +22,9 @@ class MyApp extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       theme: ThemeData.light(),
       darkTheme: ThemeData.dark(),
-      home: Welcome(),
+      home: const Welcome(),
     );
   }
 }
+
+

@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:isilo/db/database.dart';
 import 'package:isilo/screens/grandfather.dart';
 
 class Welcome extends StatefulWidget {

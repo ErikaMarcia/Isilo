@@ -3,6 +3,7 @@ import 'package:isilo/entitys/asylum.dart';
 
 @dao
 abstract class AsylumnDao {
+  
   @Query('SELECT * FROM Asylum')
   Future<List<Asylum>> findAllAsylums();
 
