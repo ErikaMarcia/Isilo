@@ -1,5 +1,5 @@
 import 'package:floor/floor.dart';
-import 'package:isilo/entitys/asylum.dart';
+import 'package:isilo/models/asylum.dart';
 
 @dao
 abstract class AsylumnDao {
