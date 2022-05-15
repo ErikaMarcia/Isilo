@@ -2,8 +2,11 @@ import 'package:floor/floor.dart';
 
 @entity
 class Asylum {
+  Asylum(this.id, this.name, this.latitude, this.longitude, this.about,
+      this.instructions, this.openingHours, this.openOnWeekends);
+
   @PrimaryKey(autoGenerate: true)
-  final int id;
+  final int? id;
 
   final String name;
   final int latitude;
@@ -12,7 +15,4 @@ class Asylum {
   final String instructions;
   final String openingHours;
   final bool openOnWeekends;
-
-  Asylum(this.id, this.name, this.latitude, this.longitude, this.about,
-      this.instructions, this.openingHours, this.openOnWeekends);
 }

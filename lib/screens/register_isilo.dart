@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:isilo/db/database.dart';
 import 'package:isilo/screens/home_screen.dart';
 
 import '../main.dart';
 
 class RegisterIsilo extends StatefulWidget {
-  const RegisterIsilo({Key? key}) : super(key: key);
+  const RegisterIsilo({Key? key, required this.db}) : super(key: key);
+  final AsylumDatabase db;
 
   @override
   State<RegisterIsilo> createState() => _RegisterIsiloState();
@@ -40,7 +42,9 @@ class _RegisterIsiloState extends State<RegisterIsilo> {
                         Navigator.push(
                             context,
                             MaterialPageRoute(
-                                builder: (context) => const HomeScreen()));
+                                builder: (context) => HomeScreen(
+                                      db: widget.db,
+                                    )));
                       },
                     )),
                 const Center(
@@ -58,7 +62,9 @@ class _RegisterIsiloState extends State<RegisterIsilo> {
                         Navigator.push(
                             context,
                             MaterialPageRoute(
-                                builder: (context) => const HomeScreen()));
+                                builder: (context) => HomeScreen(
+                                      db: widget.db,
+                                    )));
                       },
                     ))
               ],
@@ -188,8 +194,10 @@ class _RegisterIsiloState extends State<RegisterIsilo> {
             final snackBar = SnackBar(content: Text('Olhe o formulário'));
             _scaffoldKey.currentState!.showSnackBar(snackBar);
             if (formKey.currentState!.validate()) {
-              Navigator.push(context,
-                  MaterialPageRoute(builder: (context) => MyApp()));
+              Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                      builder: (context) => MyApp(db: widget.db)));
             }
           },
           tooltip: 'Increment',

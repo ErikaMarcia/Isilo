@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:isilo/db/database.dart';
 import 'package:isilo/screens/home_screen.dart';
 
 class Grandfather extends StatefulWidget {
-  const Grandfather({Key? key}) : super(key: key);
+  const Grandfather({Key? key, required this.db}) : super(key: key);
+  final AsylumDatabase db;
 
   @override
   State<Grandfather> createState() => _GrandfatherState();
@@ -17,7 +19,7 @@ class _GrandfatherState extends State<Grandfather> {
       children: [
         Column(
           children: [
-            Center(child: Image.asset("../../assets/gradfather.png")),
+            Center(child: Image.asset("assets/gradfather.png")),
             Column(
               crossAxisAlignment: CrossAxisAlignment.end,
               children: const [
@@ -36,7 +38,7 @@ class _GrandfatherState extends State<Grandfather> {
         Row(
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
           children: [
-            Center(child: Image.asset("../../assets/rightDetail.png")),
+            Center(child: Image.asset("assets/rightDetail.png")),
             IconButton(
               icon: const Icon(
                 Icons.arrow_right_alt_outlined,
@@ -47,7 +49,7 @@ class _GrandfatherState extends State<Grandfather> {
                 Navigator.push(
                     context,
                     MaterialPageRoute(
-                        builder: (context) => const HomeScreen()));
+                        builder: (context) => HomeScreen(db: widget.db)));
               },
             )
           ],

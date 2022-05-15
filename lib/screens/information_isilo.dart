@@ -1,11 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:isilo/screens/home_screen.dart';
 import 'package:latlong2/latlong.dart';
+import 'package:isilo/db/database.dart';
 import 'package:flutter_map/flutter_map.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class InformationIsilo extends StatefulWidget {
-  const InformationIsilo({Key? key}) : super(key: key);
+  const InformationIsilo({Key? key, required this.db}) : super(key: key);
+   final AsylumDatabase db;
 
   @override
   State<InformationIsilo> createState() => _InformationIsiloState();
@@ -33,7 +35,7 @@ class _InformationIsiloState extends State<InformationIsilo> {
                     Navigator.push(
                         context,
                         MaterialPageRoute(
-                            builder: (context) => const HomeScreen()));
+                            builder: (context) =>  HomeScreen(db: widget.db,)));
                   },
                 )),
             const Center(
@@ -48,7 +50,7 @@ class _InformationIsiloState extends State<InformationIsilo> {
             children: [
               SizedBox(
                 child: Image.asset(
-                  "../../assets/isiloPhoto.png",
+                  "assets/isiloPhoto.png",
                 ),
                 height: MediaQuery.of(context).size.height * 0.50,
                 width: MediaQuery.of(context).size.width,
@@ -102,7 +104,7 @@ class _InformationIsiloState extends State<InformationIsilo> {
                                       point: LatLng(-19.9381372, -43.9343437),
                                       builder: (ctx) => InkWell(
                                           child: Image.asset(
-                                              "../../assets/logo.png",
+                                              "assets/logo.png",
                                               width: 45),
                                           onTap: () => launchUrl(Uri.parse(
                                               "https://www.google.com/maps/dir/?api=1&destination=-19.9381372,-43.9343437"))))

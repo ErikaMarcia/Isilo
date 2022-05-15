@@ -1,15 +1,12 @@
 import 'package:floor/floor.dart';
+import 'package:isilo/interfaces/repository_dao_interface.dart';
 import 'package:isilo/models/asylum.dart';
 
 @dao
-abstract class AsylumnDao {
-  
-  @Query('SELECT * FROM Asylum')
-  Future<List<Asylum>> findAllAsylums();
-
+abstract class AsylumDao extends IRepositoryDaoInterface<Asylum> {
   @Query('SELECT * FROM Asylum WHERE id = :id')
-  Stream<Asylum?> findAsylumById(int id);
+  Future<void> getById(int id);
 
-  @insert
-  Future<void> insertAsylum(Asylum asylum);
+  @Query('SELECT * FROM Asylum')
+  Future<List<Asylum>> getAll();
 }

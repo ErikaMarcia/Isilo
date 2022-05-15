@@ -2,13 +2,20 @@
 
 import 'package:flutter/material.dart';
 import 'package:flutter_map/flutter_map.dart';
+import 'package:isilo/db/database.dart';
 import 'package:isilo/screens/information_isilo.dart';
 import 'package:isilo/screens/mark_isilo.dart';
 import 'package:latlong2/latlong.dart';
 
-class HomeScreen extends StatelessWidget {
-  const HomeScreen({Key? key}) : super(key: key);
+class HomeScreen extends StatefulWidget {
+  const HomeScreen({Key? key, required this.db}) : super(key: key);
+  final AsylumDatabase db;
 
+  @override
+  State<HomeScreen> createState() => _HomeScreenState();
+}
+
+class _HomeScreenState extends State<HomeScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -31,14 +38,14 @@ class HomeScreen extends StatelessWidget {
                         height: 80,
                         point: new LatLng(-19.9381372, -43.9343437),
                         builder: (ctx) => IconButton(
-                            icon: Image.asset("../../assets/logo.png"),
+                            icon: Image.asset("assets/logo.png"),
                             iconSize: 45,
                             onPressed: () {
                               Navigator.push(
                                   context,
                                   MaterialPageRoute(
                                       builder: (context) =>
-                                          const InformationIsilo()));
+                                          InformationIsilo(db: widget.db)));
                             }))
                   ],
                 ),
@@ -49,8 +56,10 @@ class HomeScreen extends StatelessWidget {
       )),
       floatingActionButton: FloatingActionButton(
         onPressed: () {
-          Navigator.push(context,
-              MaterialPageRoute(builder: (context) => const MarkIsilo()));
+          Navigator.push(
+              context,
+              MaterialPageRoute(
+                  builder: (context) => MarkIsilo(db: widget.db)));
         },
         tooltip: 'Increment',
         child: const Icon(Icons.add),

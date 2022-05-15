@@ -6,20 +6,24 @@ import 'dart:developer';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
-
   final database =
       await $FloorAsylumDatabase.databaseBuilder('app_database.db').build();
   final asylumnDao = database.asylumnDao;
-  final asylum = Asylum(1, "Lucas", 2, 3, "x", "y", "z", false);
+  final asylum = Asylum(null, "Arthur", 8, 11, "a", "b", "c", false);
   await asylumnDao.insertAsylum(asylum);
-  final result = asylumnDao.findAsylumById(1);
+  final result = await asylumnDao.getAll();
   log('result: $result');
-
-  runApp(const MyApp());
+  print('result: ${result.length}');
+  runApp(
+    MyApp(
+      db: await $FloorAsylumDatabase.databaseBuilder('app_database.db').build(),
+    ),
+  );
 }
 
 class MyApp extends StatelessWidget {
-  const MyApp({Key? key}) : super(key: key);
+  const MyApp({Key? key, required this.db}) : super(key: key);
+  final AsylumDatabase db;
 
   @override
   Widget build(BuildContext context) {
@@ -28,7 +32,7 @@ class MyApp extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       theme: ThemeData.light(),
       darkTheme: ThemeData.dark(),
-      home: const Welcome(),
+      home: Welcome(db: db),
     );
   }
 }

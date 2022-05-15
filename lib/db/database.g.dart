@@ -60,7 +60,7 @@ class _$AsylumDatabase extends AsylumDatabase {
     changeListener = listener ?? StreamController<String>.broadcast();
   }
 
-  AsylumnDao? _asylumnDaoInstance;
+  AsylumDao? _asylumnDaoInstance;
 
   Future<sqflite.Database> open(String path, List<Migration> migrations,
       [Callback? callback]) async {
@@ -80,7 +80,7 @@ class _$AsylumDatabase extends AsylumDatabase {
       },
       onCreate: (database, version) async {
         await database.execute(
-            'CREATE TABLE IF NOT EXISTS `Asylum` (`id` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `name` TEXT NOT NULL, `latitude` INTEGER NOT NULL, `longitude` INTEGER NOT NULL, `about` TEXT NOT NULL, `instructions` TEXT NOT NULL, `openingHours` TEXT NOT NULL, `openOnWeekends` INTEGER NOT NULL)');
+            'CREATE TABLE IF NOT EXISTS `Asylum` (`id` INTEGER PRIMARY KEY AUTOINCREMENT, `name` TEXT NOT NULL, `latitude` INTEGER NOT NULL, `longitude` INTEGER NOT NULL, `about` TEXT NOT NULL, `instructions` TEXT NOT NULL, `openingHours` TEXT NOT NULL, `openOnWeekends` INTEGER NOT NULL)');
 
         await callback?.onCreate?.call(database, version);
       },
@@ -89,14 +89,14 @@ class _$AsylumDatabase extends AsylumDatabase {
   }
 
   @override
-  AsylumnDao get asylumnDao {
-    return _asylumnDaoInstance ??= _$AsylumnDao(database, changeListener);
+  AsylumDao get asylumnDao {
+    return _asylumnDaoInstance ??= _$AsylumDao(database, changeListener);
   }
 }
 
-class _$AsylumnDao extends AsylumnDao {
-  _$AsylumnDao(this.database, this.changeListener)
-      : _queryAdapter = QueryAdapter(database, changeListener),
+class _$AsylumDao extends AsylumDao {
+  _$AsylumDao(this.database, this.changeListener)
+      : _queryAdapter = QueryAdapter(database),
         _asylumInsertionAdapter = InsertionAdapter(
             database,
             'Asylum',
@@ -109,8 +109,35 @@ class _$AsylumnDao extends AsylumnDao {
                   'instructions': item.instructions,
                   'openingHours': item.openingHours,
                   'openOnWeekends': item.openOnWeekends ? 1 : 0
-                },
-            changeListener);
+                }),
+        _asylumUpdateAdapter = UpdateAdapter(
+            database,
+            'Asylum',
+            ['id'],
+            (Asylum item) => <String, Object?>{
+                  'id': item.id,
+                  'name': item.name,
+                  'latitude': item.latitude,
+                  'longitude': item.longitude,
+                  'about': item.about,
+                  'instructions': item.instructions,
+                  'openingHours': item.openingHours,
+                  'openOnWeekends': item.openOnWeekends ? 1 : 0
+                }),
+        _asylumDeletionAdapter = DeletionAdapter(
+            database,
+            'Asylum',
+            ['id'],
+            (Asylum item) => <String, Object?>{
+                  'id': item.id,
+                  'name': item.name,
+                  'latitude': item.latitude,
+                  'longitude': item.longitude,
+                  'about': item.about,
+                  'instructions': item.instructions,
+                  'openingHours': item.openingHours,
+                  'openOnWeekends': item.openOnWeekends ? 1 : 0
+                });
 
   final sqflite.DatabaseExecutor database;
 
@@ -120,11 +147,21 @@ class _$AsylumnDao extends AsylumnDao {
 
   final InsertionAdapter<Asylum> _asylumInsertionAdapter;
 
+  final UpdateAdapter<Asylum> _asylumUpdateAdapter;
+
+  final DeletionAdapter<Asylum> _asylumDeletionAdapter;
+
   @override
-  Future<List<Asylum>> findAllAsylums() async {
+  Future<void> getById(int id) async {
+    await _queryAdapter
+        .queryNoReturn('SELECT * FROM Asylum WHERE id = ?', arguments: [id]);
+  }
+
+  @override
+  Future<List<Asylum>> getAll() async {
     return _queryAdapter.queryList('SELECT * FROM Asylum',
         mapper: (Map<String, Object?> row) => Asylum(
-            row['id'] as int,
+            row['id'] as int?,
             row['name'] as String,
             row['latitude'] as int,
             row['longitude'] as int,
@@ -135,24 +172,19 @@ class _$AsylumnDao extends AsylumnDao {
   }
 
   @override
-  Stream<Asylum?> findAsylumById(int id) {
-    return _queryAdapter.queryStream('SELECT * FROM Asylum WHERE id = ?',
-        arguments: [id],
-        queryableName: 'Asylum',
-        isView: false,
-        mapper: (Map<String, Object?> row) => Asylum(
-            row['id'] as int,
-            row['name'] as String,
-            row['latitude'] as int,
-            row['longitude'] as int,
-            row['about'] as String,
-            row['instructions'] as String,
-            row['openingHours'] as String,
-            (row['openOnWeekends'] as int) != 0));
+  Future<int> insertAsylum(Asylum item) {
+    return _asylumInsertionAdapter.insertAndReturnId(
+        item, OnConflictStrategy.abort);
   }
 
   @override
-  Future<void> insertAsylum(Asylum asylum) async {
-    await _asylumInsertionAdapter.insert(asylum, OnConflictStrategy.abort);
+  Future<int> updateAsylum(Asylum item) {
+    return _asylumUpdateAdapter.updateAndReturnChangedRows(
+        item, OnConflictStrategy.abort);
+  }
+
+  @override
+  Future<int> deleteAsylum(Asylum item) {
+    return _asylumDeletionAdapter.deleteAndReturnChangedRows(item);
   }
 }
