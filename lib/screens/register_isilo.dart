@@ -5,8 +5,10 @@ import 'package:isilo/screens/home_screen.dart';
 import '../main.dart';
 
 class RegisterIsilo extends StatefulWidget {
-  const RegisterIsilo({Key? key, required this.db}) : super(key: key);
+  const RegisterIsilo({Key? key, required this.db, required this.latitude, required this.longitude}) : super(key: key);
   final AsylumDatabase db;
+  final String latitude;
+  final String longitude;
 
   @override
   State<RegisterIsilo> createState() => _RegisterIsiloState();
