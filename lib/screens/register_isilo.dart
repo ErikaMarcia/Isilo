@@ -111,7 +111,7 @@ class _RegisterIsiloState extends State<RegisterIsilo> {
                     SizedBox(height: height * 0.04),
                     Container(
                         margin: const EdgeInsets.only(bottom: 20.0),
-                        child: Text("Dados",
+                        child: const Text("Dados",
                             style: TextStyle(
                               fontSize: 30,
                               color: Color(0XFF0089A5),

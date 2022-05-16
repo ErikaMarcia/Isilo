@@ -19,7 +19,9 @@ class _GrandfatherState extends State<Grandfather> {
       children: [
         Column(
           children: [
-            Center(child: Image.asset("assets/gradfather.png")),
+            Padding(
+                padding: EdgeInsets.only(top: 40.0),
+                child: Center(child: Image.asset("assets/gradfather.png"))),
             Column(
               crossAxisAlignment: CrossAxisAlignment.end,
               children: const [

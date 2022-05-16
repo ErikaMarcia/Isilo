@@ -19,7 +19,10 @@ class _WelcomeState extends State<Welcome> {
       children: [
         Column(
           children: [
-            Center(child: Image.asset("assets/world.png")),
+            Padding(
+              padding: EdgeInsets.only(top:40.0),
+              child: Center(child: Image.asset("assets/world.png")),
+            ),
             Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: const [
@@ -49,7 +52,7 @@ class _WelcomeState extends State<Welcome> {
                 Navigator.push(
                     context,
                     MaterialPageRoute(
-                        builder: (context) =>  Grandfather(db: widget.db)));
+                        builder: (context) => Grandfather(db: widget.db)));
               },
             )
           ],

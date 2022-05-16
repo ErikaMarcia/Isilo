@@ -77,6 +77,7 @@ flutter:
     - assets/leftDetail.png
     - assets/rightDetail.png
     - assets/world.png
+    - assets/whatsapp.png
   #   - images/a_dot_ham.jpeg
 
   # An image asset can refer to one or more resolution-specific "variants", see
