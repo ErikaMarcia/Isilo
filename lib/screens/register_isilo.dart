@@ -1,14 +1,22 @@
 import 'package:flutter/material.dart';
 import 'package:isilo/db/database.dart';
+import 'package:isilo/models/asylum.dart';
 import 'package:isilo/screens/home_screen.dart';
 
 import '../main.dart';
 
 class RegisterIsilo extends StatefulWidget {
-  const RegisterIsilo({Key? key, required this.db, required this.latitude, required this.longitude}) : super(key: key);
+  const RegisterIsilo(
+      {Key? key,
+      required this.db,
+      required this.latitude,
+      required this.longitude,
+      this.asylum})
+      : super(key: key);
   final AsylumDatabase db;
   final String latitude;
   final String longitude;
+  final Asylum? asylum;
 
   @override
   State<RegisterIsilo> createState() => _RegisterIsiloState();
@@ -16,7 +24,29 @@ class RegisterIsilo extends StatefulWidget {
 
 class _RegisterIsiloState extends State<RegisterIsilo> {
   final formKey = GlobalKey<FormState>(); //key for form
-  String name = "";
+  var _nameController;
+  var _imageController;
+  var _whatsAppController;
+  var _aboutController;
+  var _instructionsController;
+  var _openingHoursController;
+
+  @override
+  void initState() {
+    _nameController = TextEditingController(
+        text: widget.asylum != null ? widget.asylum?.name : '');
+    _imageController = TextEditingController(
+        text: widget.asylum != null ? widget.asylum?.image : '');
+    _whatsAppController = TextEditingController(
+        text: widget.asylum != null ? widget.asylum?.whatsApp : '');
+    _aboutController = TextEditingController(
+        text: widget.asylum != null ? widget.asylum?.about : '');
+    _instructionsController = TextEditingController(
+        text: widget.asylum != null ? widget.asylum?.instructions : '');
+    _openingHoursController = TextEditingController(
+        text: widget.asylum != null ? widget.asylum?.openingHours : '');
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -96,6 +126,7 @@ class _RegisterIsiloState extends State<RegisterIsilo> {
                     ),
                     SizedBox(height: height * 0.05),
                     TextFormField(
+                        controller: _nameController,
                       decoration:
                           const InputDecoration(labelText: 'Nome do iSilo'),
                       validator: (value) {
@@ -109,6 +140,7 @@ class _RegisterIsiloState extends State<RegisterIsilo> {
                     ),
                     SizedBox(height: height * 0.05),
                     TextFormField(
+                      controller: _aboutController,
                       decoration: const InputDecoration(labelText: 'Sobre'),
                       validator: (value) {
                         if (value!.isEmpty ||
@@ -121,9 +153,9 @@ class _RegisterIsiloState extends State<RegisterIsilo> {
                     ),
                     SizedBox(height: height * 0.05),
                     TextFormField(
+                       controller: _whatsAppController,
                       decoration: const InputDecoration(
                           labelText: 'Número do WhatsApp'),
-                      keyboardType: TextInputType.number,
                       validator: (value) {
                         if (value!.isEmpty ||
                             !RegExp(r'^[+]*[(]{0,1}[0-9]{1,4}[)]{0,1}[-\s\./0-9]+$')
@@ -136,6 +168,7 @@ class _RegisterIsiloState extends State<RegisterIsilo> {
                     ),
                     SizedBox(height: height * 0.05),
                     TextFormField(
+                       controller: _imageController,
                       decoration: const InputDecoration(labelText: 'Fotos'),
                       validator: (value) {
                         if (value!.isEmpty ||
@@ -148,6 +181,7 @@ class _RegisterIsiloState extends State<RegisterIsilo> {
                     ),
                     SizedBox(height: height * 0.05),
                     TextFormField(
+                      controller: _instructionsController,
                       decoration:
                           const InputDecoration(labelText: 'Instruções'),
                       validator: (value) {
@@ -161,6 +195,7 @@ class _RegisterIsiloState extends State<RegisterIsilo> {
                     ),
                     SizedBox(height: height * 0.05),
                     TextFormField(
+                      controller: _openingHoursController,
                       decoration:
                           const InputDecoration(labelText: 'Atendimento'),
                       validator: (value) {
@@ -196,6 +231,8 @@ class _RegisterIsiloState extends State<RegisterIsilo> {
             final snackBar = SnackBar(content: Text('Olhe o formulário'));
             _scaffoldKey.currentState!.showSnackBar(snackBar);
             if (formKey.currentState!.validate()) {
+              var asylum = Asylum(null, _nameController.text, widget.latitude, widget.longitude, _imageController.text, _whatsAppController.text, _aboutController.text, _instructionsController.text, _openingHoursController.text, false);
+              widget.db.asylumnDao.insertAsylum(asylum);
               Navigator.push(
                   context,
                   MaterialPageRoute(

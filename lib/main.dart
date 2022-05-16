@@ -9,7 +9,7 @@ void main() async {
   final database =
       await $FloorAsylumDatabase.databaseBuilder('app_database.db').build();
   final asylumnDao = database.asylumnDao;
-  final asylum = Asylum(null, "Arthur", 8, 11, "a", "b", "c", false);
+  final asylum = Asylum(null, "Arthur", "8", "11","x", "d", "a", "b", "c", false);
   await asylumnDao.insertAsylum(asylum);
   final result = await asylumnDao.getAll();
   log('result: $result');

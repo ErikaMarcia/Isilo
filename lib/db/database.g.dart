@@ -80,7 +80,7 @@ class _$AsylumDatabase extends AsylumDatabase {
       },
       onCreate: (database, version) async {
         await database.execute(
-            'CREATE TABLE IF NOT EXISTS `Asylum` (`id` INTEGER PRIMARY KEY AUTOINCREMENT, `name` TEXT NOT NULL, `latitude` INTEGER NOT NULL, `longitude` INTEGER NOT NULL, `about` TEXT NOT NULL, `instructions` TEXT NOT NULL, `openingHours` TEXT NOT NULL, `openOnWeekends` INTEGER NOT NULL)');
+            'CREATE TABLE IF NOT EXISTS `Asylum` (`id` INTEGER PRIMARY KEY AUTOINCREMENT, `name` TEXT NOT NULL, `latitude` TEXT NOT NULL, `longitude` TEXT NOT NULL, `image` TEXT NOT NULL, `whatsApp` TEXT NOT NULL, `about` TEXT NOT NULL, `instructions` TEXT NOT NULL, `openingHours` TEXT NOT NULL, `openOnWeekends` INTEGER NOT NULL)');
 
         await callback?.onCreate?.call(database, version);
       },
@@ -105,6 +105,8 @@ class _$AsylumDao extends AsylumDao {
                   'name': item.name,
                   'latitude': item.latitude,
                   'longitude': item.longitude,
+                  'image': item.image,
+                  'whatsApp': item.whatsApp,
                   'about': item.about,
                   'instructions': item.instructions,
                   'openingHours': item.openingHours,
@@ -119,6 +121,8 @@ class _$AsylumDao extends AsylumDao {
                   'name': item.name,
                   'latitude': item.latitude,
                   'longitude': item.longitude,
+                  'image': item.image,
+                  'whatsApp': item.whatsApp,
                   'about': item.about,
                   'instructions': item.instructions,
                   'openingHours': item.openingHours,
@@ -133,6 +137,8 @@ class _$AsylumDao extends AsylumDao {
                   'name': item.name,
                   'latitude': item.latitude,
                   'longitude': item.longitude,
+                  'image': item.image,
+                  'whatsApp': item.whatsApp,
                   'about': item.about,
                   'instructions': item.instructions,
                   'openingHours': item.openingHours,
@@ -163,8 +169,10 @@ class _$AsylumDao extends AsylumDao {
         mapper: (Map<String, Object?> row) => Asylum(
             row['id'] as int?,
             row['name'] as String,
-            row['latitude'] as int,
-            row['longitude'] as int,
+            row['latitude'] as String,
+            row['longitude'] as String,
+            row['image'] as String,
+            row['whatsApp'] as String,
             row['about'] as String,
             row['instructions'] as String,
             row['openingHours'] as String,
