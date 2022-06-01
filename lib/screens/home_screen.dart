@@ -7,6 +7,8 @@ import 'package:isilo/screens/information_isilo.dart';
 import 'package:isilo/screens/mark_isilo.dart';
 import 'package:latlong2/latlong.dart';
 
+import '../models/asylum.dart';
+
 class HomeScreen extends StatefulWidget {
   const HomeScreen({Key? key, required this.db}) : super(key: key);
   final AsylumDatabase db;
@@ -16,8 +18,36 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
+  List<Marker> _markes = [];
+
+  void _returnMarker() async {
+    var response = await widget.db.asylumnDao.getAll();
+    setState(() {
+      _markes = response
+          .map((e) => Marker(
+              width: 80,
+              height: 80,
+              point: new LatLng(
+                  double.parse(e.latitude.substring(1, e.latitude.length - 2)),
+                  double.parse(
+                      e.longitude.substring(1, e.longitude.length - 2))),
+              builder: (ctx) => IconButton(
+                  icon: Image.asset("assets/logo.png"),
+                  iconSize: 45,
+                  onPressed: () {
+                    Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) =>
+                                InformationIsilo(db: widget.db, id: e.id!)));
+                  })))
+          .toList();
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
+    _returnMarker();
     return Scaffold(
       body: Center(
           child: Column(
@@ -31,24 +61,7 @@ class _HomeScreenState extends State<HomeScreen> {
                     urlTemplate:
                         "https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png",
                     subdomains: ['a', 'b', 'c']),
-                new MarkerLayerOptions(
-                  markers: [
-                    new Marker(
-                        width: 80,
-                        height: 80,
-                        point: new LatLng(-19.9381372, -43.9343437),
-                        builder: (ctx) => IconButton(
-                            icon: Image.asset("assets/logo.png"),
-                            iconSize: 45,
-                            onPressed: () {
-                              Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                      builder: (context) =>
-                                          InformationIsilo(db: widget.db)));
-                            }))
-                  ],
-                ),
+                new MarkerLayerOptions(markers: _markes)
               ],
             ),
           )
@@ -61,8 +74,7 @@ class _HomeScreenState extends State<HomeScreen> {
               MaterialPageRoute(
                   builder: (context) => MarkIsilo(db: widget.db)));
         },
-        tooltip: 'Increment',
-        child: const Icon(Icons.add),
+        child: Icon(Icons.add),
       ),
     );
   }

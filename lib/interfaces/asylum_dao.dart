@@ -5,7 +5,7 @@ import 'package:isilo/models/asylum.dart';
 @dao
 abstract class AsylumDao extends IRepositoryDaoInterface<Asylum> {
   @Query('SELECT * FROM Asylum WHERE id = :id')
-  Future<void> getById(int id);
+  Future<Asylum?> getById(int id);
 
   @Query('SELECT * FROM Asylum')
   Future<List<Asylum>> getAll();

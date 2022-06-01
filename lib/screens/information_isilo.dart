@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:isilo/models/asylum.dart';
 import 'package:isilo/screens/home_screen.dart';
 import 'package:latlong2/latlong.dart';
 import 'package:isilo/db/database.dart';
@@ -6,16 +7,29 @@ import 'package:flutter_map/flutter_map.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class InformationIsilo extends StatefulWidget {
-  const InformationIsilo({Key? key, required this.db}) : super(key: key);
+  const InformationIsilo({Key? key, required this.db, required this.id})
+      : super(key: key);
   final AsylumDatabase db;
+  final int id;
 
   @override
   State<InformationIsilo> createState() => _InformationIsiloState();
 }
 
 class _InformationIsiloState extends State<InformationIsilo> {
+  late Asylum? _asylum;
+
+  void _returnMarker() async {
+    var response = await widget.db.asylumnDao.getById(widget.id);
+    setState(() {
+      _asylum = response;
+    });
+  }
+
+
   @override
   Widget build(BuildContext context) {
+    _returnMarker();
     return MaterialApp(
       home: Scaffold(
           body: SingleChildScrollView(
@@ -68,15 +82,15 @@ class _InformationIsiloState extends State<InformationIsilo> {
                     Container(
                         padding: const EdgeInsets.only(
                             bottom: 20.0, left: 25.0, right: 25.0),
-                        child: const Text("iSilo. Esperança",
+                        child:  Text(_asylum!.name,
                             style: TextStyle(
                                 fontSize: 32,
                                 fontWeight: FontWeight.w700,
                                 color: Color(0XFF0089A5)))),
                     Container(
                       padding: const EdgeInsets.only(left: 25.0, right: 25.0),
-                      child: const Text(
-                          "Presta assistência a idosos de 60 a 90 anos que se encontre em situação de risco e/ou vulnerabilidade social.",
+                      child: Text(
+                          _asylum!.about,
                           textAlign: TextAlign.justify,
                           style: TextStyle(fontSize: 16, color: Colors.black)),
                     ),
@@ -95,7 +109,7 @@ class _InformationIsiloState extends State<InformationIsilo> {
                               enableScrollWheel: false,
                               enableMultiFingerGestureRace: false,
                               allowPanningOnScrollingParent: false,
-                              center: LatLng(-19.9381372, -43.9343437),
+                              center: LatLng(double.parse(_asylum!.latitude.substring(1, _asylum!.latitude.length - 2)), double.parse(_asylum!.longitude.substring(1, _asylum!.longitude.length - 2))),
                               zoom: 15,
                             ),
                             nonRotatedLayers: [
@@ -109,12 +123,12 @@ class _InformationIsiloState extends State<InformationIsilo> {
                                   Marker(
                                       width: 80,
                                       height: 80,
-                                      point: LatLng(-19.9381372, -43.9343437),
+                                      point:  LatLng(double.parse(_asylum!.latitude.substring(1, _asylum!.latitude.length - 2)), double.parse(_asylum!.longitude.substring(1, _asylum!.longitude.length - 2))),
                                       builder: (ctx) => InkWell(
                                           child: Image.asset("assets/logo.png",
                                               width: 45),
                                           onTap: () => launchUrl(Uri.parse(
-                                              "https://www.google.com/maps/dir/?api=1&destination=-19.9381372,-43.9343437"))))
+                                              'https://www.google.com/maps/dir/?api=1&destination=-${_asylum!.latitude.substring(1, _asylum!.latitude.length - 2)},${_asylum!.longitude.substring(1, _asylum!.longitude.length - 2)}'))))
                                 ],
                               ),
                             ],
@@ -136,10 +150,10 @@ class _InformationIsiloState extends State<InformationIsilo> {
                           color: Color(0XFF0089A5)))),
               Container(
                 padding: const EdgeInsets.only(left: 25.0, right: 25.0),
-                child: const Center(
+                child: Center(
                   heightFactor: 2,
                   child: Text(
-                      'Instruções: O iSilo não aceita animais e crianças de até 10 anos de idade.',
+                     _asylum!.instructions,
                       textDirection: TextDirection.ltr,
                       style: TextStyle(
                         fontSize: 16,
@@ -169,9 +183,9 @@ class _InformationIsiloState extends State<InformationIsilo> {
                         margin: const EdgeInsets.only(bottom: 10),
                         child: const Icon(Icons.access_time,
                             color: Colors.blue, size: 30.0)),
-                    const Center(
+                     Center(
                       child:
-                          Text('Horário das visitas: Visita das 8h até as 17h.',
+                          Text(_asylum!.openingHours,
                               textDirection: TextDirection.ltr,
                               style: TextStyle(
                                 fontSize: 16,
@@ -203,8 +217,8 @@ class _InformationIsiloState extends State<InformationIsilo> {
                         margin: const EdgeInsets.only(bottom: 10.0),
                         child: const Icon(Icons.error_outline_sharp,
                             color: Colors.green, size: 30.0)),
-                    const Center(
-                      child: Text('Atendemos fim de semana',
+                     Center(
+                      child: Text(_asylum!.openOnWeekends ? 'Atendemos fim de semana' : 'Não atendemos fim de semana', 
                           textDirection: TextDirection.ltr,
                           style: TextStyle(
                             fontSize: 16,
@@ -247,7 +261,7 @@ class _InformationIsiloState extends State<InformationIsilo> {
                                   )))),
                     ]),
                     onTap: () => launchUrl(
-                        Uri.parse("https://wa.me/5531988975000"))),
+                        Uri.parse("https://wa.me/${_asylum!.whatsApp}"))),
               )
             ]),
       ]))),

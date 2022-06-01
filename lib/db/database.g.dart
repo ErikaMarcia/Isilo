@@ -158,9 +158,20 @@ class _$AsylumDao extends AsylumDao {
   final DeletionAdapter<Asylum> _asylumDeletionAdapter;
 
   @override
-  Future<void> getById(int id) async {
-    await _queryAdapter
-        .queryNoReturn('SELECT * FROM Asylum WHERE id = ?', arguments: [id]);
+  Future<Asylum?> getById(int id) async {
+    return _queryAdapter.query('SELECT * FROM Asylum WHERE id = ?',
+        arguments: [id],
+        mapper: (Map<String, Object?> row) => Asylum(
+            row['id'] as int?,
+            row['name'] as String,
+            row['latitude'] as String,
+            row['longitude'] as String,
+            row['image'] as String,
+            row['whatsApp'] as String,
+            row['about'] as String,
+            row['instructions'] as String,
+            row['openingHours'] as String,
+            (row['openOnWeekends'] as int) != 0));
   }
 
   @override
