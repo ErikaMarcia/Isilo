@@ -61,7 +61,7 @@ class _MarkIsilo extends State<MarkIsilo> {
               child: FlutterMap(
                 options: MapOptions(
                     center: LatLng(-19.9381372, -43.9343437),
-                    zoom: 8.0,
+                    zoom: 15.0,
                     onTap: _handleTap),
                 layers: [
                   TileLayerOptions(
