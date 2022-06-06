@@ -6,8 +6,6 @@ import 'package:isilo/themes/app_colors.dart';
 import 'package:isilo/widgets/input_text/input_text_widget.dart';
 import 'package:isilo/widgets/set_buttons/set_label_buttons.dart';
 
-import '../main.dart';
-
 class RegisterIsiloPage extends StatefulWidget {
   const RegisterIsiloPage(
       {Key? key,
@@ -58,11 +56,11 @@ class _RegisterIsiloPageState extends State<RegisterIsiloPage> {
   String? validateImage(String? value) =>
       !RegExp(r"^(?:http|https):\/\/[\w\-_]+(?:\.[\w\-_]+)+[\w\-.,@?^=%&:/~\\+#]*$")
               .hasMatch(value!)
-          ? "O campo foto não pode ser vazio"
+          ? "Digite uma url de uma imagem corretamente"
           : null;
   String? validateWhastapp(String? value) =>
       !RegExp(r"^[+]*[(]{0,1}[0-9]{1,4}[)]{0,1}[-\s\./0-9]*$").hasMatch(value!)
-          ? "O whatsapp não pode ser vazio"
+          ? "Mascara correta (99)999999999"
           : null;
   String? validateAbout(String? value) =>
       value?.isEmpty ?? true ? "O campo sobre não pode ser vazio" : null;
@@ -91,7 +89,7 @@ class _RegisterIsiloPageState extends State<RegisterIsiloPage> {
           false);
       widget.db.asylumnDao.insertAsylum(asylum);
       Navigator.push(context,
-          MaterialPageRoute(builder: (context) => MyApp(db: widget.db)));
+          MaterialPageRoute(builder: (context) => HomeScreen(db: widget.db)));
     }
   }
 
@@ -226,7 +224,10 @@ class _RegisterIsiloPageState extends State<RegisterIsiloPage> {
             enableSecondaryColor: true,
             labelPrimary: "Cancelar",
             onTapPrimary: () {
-              Navigator.pop(context);
+              Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                      builder: (context) => HomeScreen(db: widget.db)));
             },
             labelSecondary: "Cadastrar",
             onTapSecondary: () async {

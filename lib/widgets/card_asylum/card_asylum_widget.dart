@@ -42,10 +42,11 @@ class CardAsylum extends StatelessWidget {
                       children: <Widget>[
                         AspectRatio(
                           aspectRatio: 2,
-                          child: Image.network(
-                            image!,
-                            fit: BoxFit.cover,
-                          ),
+                          child: Image.network(image!, fit: BoxFit.cover,
+                              errorBuilder: (context, exception, stackTrace) {
+                            return Image.asset("assets/isiloPhoto.png",
+                                fit: BoxFit.cover);
+                          }),
                         ),
                         Container(
                           color: Color(0xFFFFFFFF),
