@@ -61,7 +61,7 @@ class _MarkIsilo extends State<MarkIsilo> {
               child: FlutterMap(
                 options: MapOptions(
                     center: LatLng(-19.9381372, -43.9343437),
-                    zoom: 15.0,
+                    zoom: 14.0,
                     onTap: _handleTap),
                 layers: [
                   TileLayerOptions(
@@ -83,7 +83,7 @@ class _MarkIsilo extends State<MarkIsilo> {
                 Navigator.push(
                     context,
                     MaterialPageRoute(
-                        builder: (context) => RegisterIsilo(
+                        builder: (context) => RegisterIsiloPage(
                             db: widget.db,
                             latitude: tappedPoints
                                 .map((latlng) => latlng.latitude)

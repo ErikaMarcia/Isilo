@@ -1,10 +1,14 @@
 import 'package:flutter/material.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:isilo/models/asylum.dart';
 import 'package:isilo/screens/home_screen.dart';
+import 'package:isilo/widgets/card_asylum/card_asylum_widget.dart';
+
 import 'package:latlong2/latlong.dart';
 import 'package:isilo/db/database.dart';
 import 'package:flutter_map/flutter_map.dart';
 import 'package:url_launcher/url_launcher.dart';
+import 'package:http/http.dart' as http;
 
 class InformationIsilo extends StatefulWidget {
   const InformationIsilo({Key? key, required this.db, required this.id})
@@ -26,10 +30,10 @@ class _InformationIsiloState extends State<InformationIsilo> {
     });
   }
 
-
   @override
   Widget build(BuildContext context) {
     _returnMarker();
+
     return MaterialApp(
       home: Scaffold(
           body: SingleChildScrollView(
@@ -68,35 +72,19 @@ class _InformationIsiloState extends State<InformationIsilo> {
             mainAxisAlignment: MainAxisAlignment.start,
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              SizedBox(
-                child: Image.asset(
-                  "assets/isiloPhoto.png",
-                ),
-                height: MediaQuery.of(context).size.height * 0.40,
-                width: MediaQuery.of(context).size.width,
+              CardAsylum(
+                titleTxt: _asylum!.name,
+                subTxt: _asylum!.about,
+                image: _asylum!.image,
               ),
-              Center(
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Container(
-                        padding: const EdgeInsets.only(
-                            bottom: 20.0, left: 25.0, right: 25.0),
-                        child:  Text(_asylum!.name,
-                            style: TextStyle(
-                                fontSize: 32,
-                                fontWeight: FontWeight.w700,
-                                color: Color(0XFF0089A5)))),
-                    Container(
-                      padding: const EdgeInsets.only(left: 25.0, right: 25.0),
-                      child: Text(
-                          _asylum!.about,
-                          textAlign: TextAlign.justify,
-                          style: TextStyle(fontSize: 16, color: Colors.black)),
-                    ),
-                  ],
-                ),
-              ),
+              Container(
+                  padding:
+                      const EdgeInsets.only(left: 25.0, right: 25.0, top: 30.0),
+                  child: const Text("Localização",
+                      style: TextStyle(
+                          fontSize: 24,
+                          fontWeight: FontWeight.w700,
+                          color: Color(0XFF0089A5)))),
               Center(
                   heightFactor: 1.3,
                   child: SizedBox(
@@ -109,7 +97,11 @@ class _InformationIsiloState extends State<InformationIsilo> {
                               enableScrollWheel: false,
                               enableMultiFingerGestureRace: false,
                               allowPanningOnScrollingParent: false,
-                              center: LatLng(double.parse(_asylum!.latitude.substring(1, _asylum!.latitude.length - 2)), double.parse(_asylum!.longitude.substring(1, _asylum!.longitude.length - 2))),
+                              center: LatLng(
+                                  double.parse(_asylum!.latitude.substring(
+                                      1, _asylum!.latitude.length - 2)),
+                                  double.parse(_asylum!.longitude.substring(
+                                      1, _asylum!.longitude.length - 2))),
                               zoom: 15,
                             ),
                             nonRotatedLayers: [
@@ -123,147 +115,93 @@ class _InformationIsiloState extends State<InformationIsilo> {
                                   Marker(
                                       width: 80,
                                       height: 80,
-                                      point:  LatLng(double.parse(_asylum!.latitude.substring(1, _asylum!.latitude.length - 2)), double.parse(_asylum!.longitude.substring(1, _asylum!.longitude.length - 2))),
+                                      point: LatLng(
+                                          double.parse(_asylum!.latitude.substring(
+                                              1, _asylum!.latitude.length - 2)),
+                                          double.parse(_asylum!.longitude
+                                              .substring(
+                                                  1,
+                                                  _asylum!.longitude.length -
+                                                      2))),
                                       builder: (ctx) => InkWell(
-                                          child: Image.asset("assets/logo.png",
+                                          child: Image.asset(
+                                              "assets/logoIcon.png",
                                               width: 45),
                                           onTap: () => launchUrl(Uri.parse(
-                                              'https://www.google.com/maps/dir/?api=1&destination=-${_asylum!.latitude.substring(1, _asylum!.latitude.length - 2)},${_asylum!.longitude.substring(1, _asylum!.longitude.length - 2)}'))))
+                                              'https://www.google.com/maps/dir/?api=1&destination=${_asylum!.latitude.substring(1, _asylum!.latitude.length - 2)},${_asylum!.longitude.substring(1, _asylum!.longitude.length - 2)}'))))
                                 ],
                               ),
                             ],
                           ),
                           onPressed: () {}))),
-              const Divider(
-                height: 20,
-                thickness: 1,
-                indent: 40,
-                endIndent: 40,
-                color: Color.fromARGB(255, 196, 196, 196),
-              ),
               Container(
-                  padding: const EdgeInsets.only(left: 25.0, right: 25.0, top: 10.0),
+                  padding:
+                      const EdgeInsets.only(left: 25.0, right: 25.0, top: 10.0),
                   child: const Text("Instruções para visita",
                       style: TextStyle(
                           fontSize: 24,
                           fontWeight: FontWeight.w700,
                           color: Color(0XFF0089A5)))),
-              Container(
-                padding: const EdgeInsets.only(left: 25.0, right: 25.0),
-                child: Center(
-                  heightFactor: 2,
-                  child: Text(
-                     _asylum!.instructions,
-                      textDirection: TextDirection.ltr,
-                      style: TextStyle(
-                        fontSize: 16,
-                        color: Colors.black,
-                      )),
-                ),
-              ),
-              Container(
-                margin: const EdgeInsets.only(
-                    left: 25.0, right: 25.0, bottom: 10.0),
-                padding: const EdgeInsets.only(top: 30, bottom: 30),
-                decoration: const BoxDecoration(
-                  gradient: LinearGradient(
-                    colors: [
-                      Color(0xFFB3DAE2),
-                      Color.fromARGB(255, 234, 232, 232),
-                    ],
-                  ),
-                  borderRadius: BorderRadius.horizontal(
-                    left: Radius.circular(5),
-                    right: Radius.circular(5),
-                  ),
-                ),
-                child: Column(
-                  children: [
-                    Container(
-                        margin: const EdgeInsets.only(bottom: 10),
-                        child: const Icon(Icons.access_time,
-                            color: Colors.blue, size: 30.0)),
-                     Center(
-                      child:
-                          Text(_asylum!.openingHours,
-                              textDirection: TextDirection.ltr,
-                              style: TextStyle(
-                                fontSize: 16,
-                                color: Colors.black,
-                              )),
-                    ),
-                  ],
-                ),
-              ),
-              Container(
-                margin:
-                    const EdgeInsets.only(left: 25.0, right: 25.0, top: 10.0),
-                padding: const EdgeInsets.only(top: 30, bottom: 30),
-                decoration: const BoxDecoration(
-                  gradient: LinearGradient(
-                    colors: [
-                      Color(0xFFA1E9C5),
-                      Color.fromARGB(255, 234, 232, 232),
-                    ],
-                  ),
-                  borderRadius: BorderRadius.horizontal(
-                    left: Radius.circular(5),
-                    right: Radius.circular(5),
-                  ),
-                ),
-                child: Column(
-                  children: [
-                    Container(
-                        margin: const EdgeInsets.only(bottom: 10.0),
-                        child: const Icon(Icons.error_outline_sharp,
-                            color: Colors.green, size: 30.0)),
-                     Center(
-                      child: Text(_asylum!.openOnWeekends ? 'Atendemos fim de semana' : 'Não atendemos fim de semana', 
-                          textDirection: TextDirection.ltr,
-                          style: TextStyle(
-                            fontSize: 16,
-                            color: Colors.black,
-                          )),
-                    ),
-                  ],
-                ),
-              ),
-              Container(
-                margin:
-                    const EdgeInsets.only(left: 25.0, right: 25.0, top: 10.0),
-                padding: const EdgeInsets.only(top: 20, bottom: 20),
-                decoration: const BoxDecoration(
-                  color: Color.fromARGB(255, 17, 173, 25),
-                  borderRadius: BorderRadius.horizontal(
-                    left: Radius.circular(5),
-                    right: Radius.circular(5),
-                  ),
-                ),
-                child: InkWell(
-                    child: Column(children: [
-                      Center(
-                        child: SizedBox(
-                          child: Image.asset(
-                            "assets/whatsapp.png",
-                          ),
-                          height: 30,
-                          width: 30,
-                        ),
-                      ),
-                      Center(
-                          child: Container(
-                              margin: const EdgeInsets.only(top: 10.0),
-                              child: const Text('Entrar em contato',
-                                  textDirection: TextDirection.ltr,
-                                  style: TextStyle(
-                                    fontSize: 16,
-                                    color: Colors.white,
-                                  )))),
-                    ]),
-                    onTap: () => launchUrl(
-                        Uri.parse("https://wa.me/${_asylum!.whatsApp}"))),
-              )
             ]),
+        Container(
+            margin: const EdgeInsets.all(16.0),
+            padding: const EdgeInsets.fromLTRB(16.0, 0, 16.0, 16.0),
+            decoration: BoxDecoration(
+                color: Colors.white,
+                boxShadow: [
+                  BoxShadow(
+                      color: Colors.black12,
+                      offset: Offset(0, 3),
+                      blurRadius: 6)
+                ],
+                borderRadius: BorderRadius.only(
+                    bottomLeft: Radius.circular(10),
+                    bottomRight: Radius.circular(10))),
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                ListTile(
+                  title: Text( _asylum!.openOnWeekends
+                        ? "Atendemos final de semana"
+                        : "Nao atendemos final de semana"),
+                  trailing: Icon(
+                    FontAwesomeIcons.circleInfo,
+                    color: Color(0XFF54D3C2),
+                  ),
+                ),
+                ListTile(
+                  title: Text(_asylum!.whatsApp),
+                  trailing: Icon(
+                    FontAwesomeIcons.whatsapp,
+                    color: Color(0XFF54D3C2),
+                  ),
+                ),
+                ListTile(
+                  title: Text(_asylum!.instructions),
+                  trailing: Icon(
+                     FontAwesomeIcons.triangleExclamation,
+                    color:  Color(0XFF54D3C2),
+                  ),
+                ),
+                ListTile(
+                  title: Text(_asylum!.openingHours),
+                  trailing: Icon(
+                    FontAwesomeIcons.clock,
+                    color: Color(0XFF54D3C2),
+                  ),
+                ),
+                Divider(),
+                ListTile(
+                  title: Text(
+                    "Agende sua visita",
+                    style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+                  ),
+                  trailing: Icon(
+                    FontAwesomeIcons.calendarCheck,
+                    color: Color(0XFF54D3C2),
+                ))
+              ],
+            )),
       ]))),
     );
   }
