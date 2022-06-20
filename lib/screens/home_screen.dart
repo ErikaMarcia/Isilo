@@ -2,6 +2,7 @@
 
 import 'dart:convert';
 
+import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_map/flutter_map.dart';
@@ -54,9 +55,47 @@ class _HomeScreenState extends State<HomeScreen> {
     });
   }
 
+  void _asyncFirebaseAndLocal() async {
+    var connectivityResult = await (Connectivity().checkConnectivity());
+    if (connectivityResult == ConnectivityResult.wifi) {
+      var response = await widget.db.asylumnDao.getAll();
+      var counter = response.length;
+
+      final ref = FirebaseDatabase.instance.ref();
+      final snapshot = await ref.child('/asylums').get();
+      if (snapshot.exists) {
+        var dataFirebase = snapshot.value as List<Object?>;
+        var conterFirebase = dataFirebase.length;
+        if (counter > dataFirebase.length) {
+          response.forEach((element) async {
+            if (element.id! >= conterFirebase) {
+              DatabaseReference ref =
+                  widget.database.ref('/asylums/${element.id}');
+              await ref.set({
+                "id": element.id,
+                "name": element.name,
+                "latitude": element.latitude,
+                "longitude": element.longitude,
+                "image": element.image,
+                "whatsApp": element.whatsApp,
+                "about": element.about,
+                "instructions": element.instructions,
+                "openingHours": element.openingHours,
+                "openOnWeekends": element.openOnWeekends
+              });
+            }
+          });
+        }
+      } else {
+        print('No data available.');
+      }
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     _returnMarker();
+    _asyncFirebaseAndLocal();
     return Scaffold(
       body: Center(
           child: Column(
