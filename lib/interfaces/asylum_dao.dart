@@ -9,4 +9,5 @@ abstract class AsylumDao extends IRepositoryDaoInterface<Asylum> {
 
   @Query('SELECT * FROM Asylum')
   Future<List<Asylum>> getAll();
+
 }

@@ -1,10 +1,13 @@
+import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
 import 'package:isilo/db/database.dart';
 import 'package:isilo/screens/grandfather.dart';
 
 class Welcome extends StatefulWidget {
-  const Welcome({Key? key, required this.db}) : super(key: key);
+  const Welcome({Key? key, required this.db, required this.database})
+      : super(key: key);
   final AsylumDatabase db;
+  final FirebaseDatabase database;
 
   @override
   State<Welcome> createState() => _WelcomeState();
@@ -20,7 +23,7 @@ class _WelcomeState extends State<Welcome> {
         Column(
           children: [
             Padding(
-              padding: EdgeInsets.only(top:40.0),
+              padding: EdgeInsets.only(top: 40.0),
               child: Center(child: Image.asset("assets/world.png")),
             ),
             Column(
@@ -52,7 +55,8 @@ class _WelcomeState extends State<Welcome> {
                 Navigator.push(
                     context,
                     MaterialPageRoute(
-                        builder: (context) => Grandfather(db: widget.db)));
+                        builder: (context) => Grandfather(
+                            db: widget.db, database: widget.database)));
               },
             )
           ],

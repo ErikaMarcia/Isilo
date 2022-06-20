@@ -1,3 +1,4 @@
+import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:isilo/models/asylum.dart';
@@ -11,10 +12,12 @@ import 'package:url_launcher/url_launcher.dart';
 import 'package:http/http.dart' as http;
 
 class InformationIsilo extends StatefulWidget {
-  const InformationIsilo({Key? key, required this.db, required this.id})
+  const InformationIsilo(
+      {Key? key, required this.db, required this.id, required this.database})
       : super(key: key);
   final AsylumDatabase db;
   final int id;
+  final FirebaseDatabase database;
 
   @override
   State<InformationIsilo> createState() => _InformationIsiloState();
@@ -22,6 +25,7 @@ class InformationIsilo extends StatefulWidget {
 
 class _InformationIsiloState extends State<InformationIsilo> {
   late Asylum? _asylum;
+  
 
   void _returnMarker() async {
     var response = await widget.db.asylumnDao.getById(widget.id);
@@ -55,6 +59,7 @@ class _InformationIsiloState extends State<InformationIsilo> {
                         MaterialPageRoute(
                             builder: (context) => HomeScreen(
                                   db: widget.db,
+                                  database: widget.database,
                                 )));
                   },
                 )),
@@ -161,9 +166,9 @@ class _InformationIsiloState extends State<InformationIsilo> {
               mainAxisSize: MainAxisSize.min,
               children: [
                 ListTile(
-                  title: Text( _asylum!.openOnWeekends
-                        ? "Atendemos final de semana"
-                        : "Nao atendemos final de semana"),
+                  title: Text(_asylum!.openOnWeekends
+                      ? "Atendemos final de semana"
+                      : "Nao atendemos final de semana"),
                   trailing: Icon(
                     FontAwesomeIcons.circleInfo,
                     color: Color(0XFF54D3C2),
@@ -179,8 +184,8 @@ class _InformationIsiloState extends State<InformationIsilo> {
                 ListTile(
                   title: Text(_asylum!.instructions),
                   trailing: Icon(
-                     FontAwesomeIcons.triangleExclamation,
-                    color:  Color(0XFF54D3C2),
+                    FontAwesomeIcons.triangleExclamation,
+                    color: Color(0XFF54D3C2),
                   ),
                 ),
                 ListTile(
@@ -192,14 +197,15 @@ class _InformationIsiloState extends State<InformationIsilo> {
                 ),
                 Divider(),
                 ListTile(
-                  title: Text(
-                    "Agende sua visita",
-                    style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
-                  ),
-                  trailing: Icon(
-                    FontAwesomeIcons.calendarCheck,
-                    color: Color(0XFF54D3C2),
-                ))
+                    title: Text(
+                      "Agende sua visita",
+                      style:
+                          TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+                    ),
+                    trailing: Icon(
+                      FontAwesomeIcons.calendarCheck,
+                      color: Color(0XFF54D3C2),
+                    ))
               ],
             )),
       ]))),

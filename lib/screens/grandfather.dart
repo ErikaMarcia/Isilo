@@ -1,10 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:isilo/db/database.dart';
 import 'package:isilo/screens/home_screen.dart';
+import 'package:firebase_database/firebase_database.dart';
 
 class Grandfather extends StatefulWidget {
-  const Grandfather({Key? key, required this.db}) : super(key: key);
+  const Grandfather({Key? key, required this.db, required this.database})
+      : super(key: key);
   final AsylumDatabase db;
+  final FirebaseDatabase database;
 
   @override
   State<Grandfather> createState() => _GrandfatherState();
@@ -51,7 +54,8 @@ class _GrandfatherState extends State<Grandfather> {
                 Navigator.push(
                     context,
                     MaterialPageRoute(
-                        builder: (context) => HomeScreen(db: widget.db)));
+                        builder: (context) => HomeScreen(
+                            db: widget.db, database: widget.database)));
               },
             )
           ],

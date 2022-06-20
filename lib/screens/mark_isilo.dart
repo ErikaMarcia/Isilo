@@ -3,13 +3,13 @@ import 'package:flutter_map/flutter_map.dart';
 import 'package:isilo/db/database.dart';
 import 'package:isilo/screens/register_isilo.dart';
 import 'package:latlong2/latlong.dart';
+import 'package:firebase_database/firebase_database.dart';
 
 class MarkIsilo extends StatefulWidget {
-  const MarkIsilo({
-    Key? key,
-    required this.db,
-  }) : super(key: key);
+  const MarkIsilo({Key? key, required this.db, required this.database})
+      : super(key: key);
   final AsylumDatabase db;
+  final FirebaseDatabase database;
 
   @override
   _MarkIsilo createState() => _MarkIsilo();
@@ -85,6 +85,7 @@ class _MarkIsilo extends State<MarkIsilo> {
                     MaterialPageRoute(
                         builder: (context) => RegisterIsiloPage(
                             db: widget.db,
+                            database: widget.database,
                             latitude: tappedPoints
                                 .map((latlng) => latlng.latitude)
                                 .toString(),

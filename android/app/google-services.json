@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "953663052528",
+    "firebase_url": "https://flutterisilo-default-rtdb.firebaseio.com",
+    "project_id": "flutterisilo",
+    "storage_bucket": "flutterisilo.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:953663052528:android:2af83d2ec9085913e48035",
+        "android_client_info": {
+          "package_name": "isilo.com.isilo"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "953663052528-m48m9g8qn8aq73qn7cndr0q3327j17k2.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDcUIpwSfGue48I3C9cLpaNbvwVRPAs7XE"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "953663052528-m48m9g8qn8aq73qn7cndr0q3327j17k2.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

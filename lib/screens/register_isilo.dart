@@ -1,3 +1,7 @@
+import 'dart:async';
+
+import 'package:connectivity_plus/connectivity_plus.dart';
+import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
 import 'package:isilo/db/database.dart';
 import 'package:isilo/models/asylum.dart';
@@ -12,12 +16,14 @@ class RegisterIsiloPage extends StatefulWidget {
       required this.db,
       required this.latitude,
       required this.longitude,
-      this.asylum})
+      this.asylum,
+      required this.database})
       : super(key: key);
   final AsylumDatabase db;
   final String latitude;
   final String longitude;
   final Asylum? asylum;
+  final FirebaseDatabase database;
 
   @override
   State<RegisterIsiloPage> createState() => _RegisterIsiloPageState();
@@ -87,9 +93,36 @@ class _RegisterIsiloPageState extends State<RegisterIsiloPage> {
           _instructionsController.text,
           _openingHoursController.text,
           false);
-      widget.db.asylumnDao.insertAsylum(asylum);
-      Navigator.push(context,
-          MaterialPageRoute(builder: (context) => HomeScreen(db: widget.db)));
+
+      await widget.db.asylumnDao.insertAsylum(asylum);
+
+      var response = await widget.db.asylumnDao.getAll();
+      var counter = response.length;
+
+      var connectivityResult = await (Connectivity().checkConnectivity());
+      if (connectivityResult == ConnectivityResult.wifi) {
+        DatabaseReference ref = widget.database.ref('/asylums/${counter}');
+        await ref.set({
+          "id": counter,
+          "name": _nameController.text,
+          "latitude": widget.latitude,
+          "longitude": widget.longitude,
+          "image": _imageController.text,
+          "whatsApp": _whatsAppController.text,
+          "about": _aboutController.text,
+          "instructions": _instructionsController.text,
+          "openingHours": _openingHoursController.text,
+          "openOnWeekends": false
+        });
+      }
+
+      Navigator.push(
+          context,
+          MaterialPageRoute(
+              builder: (context) => HomeScreen(
+                    db: widget.db,
+                    database: widget.database,
+                  )));
     }
   }
 
@@ -121,6 +154,7 @@ class _RegisterIsiloPageState extends State<RegisterIsiloPage> {
                           MaterialPageRoute(
                               builder: (context) => HomeScreen(
                                     db: widget.db,
+                                    database: widget.database,
                                   )));
                     },
                   )),
@@ -141,6 +175,7 @@ class _RegisterIsiloPageState extends State<RegisterIsiloPage> {
                           MaterialPageRoute(
                               builder: (context) => HomeScreen(
                                     db: widget.db,
+                                    database: widget.database,
                                   )));
                     },
                   ))
@@ -227,7 +262,8 @@ class _RegisterIsiloPageState extends State<RegisterIsiloPage> {
               Navigator.push(
                   context,
                   MaterialPageRoute(
-                      builder: (context) => HomeScreen(db: widget.db)));
+                      builder: (context) => HomeScreen(
+                          db: widget.db, database: widget.database)));
             },
             labelSecondary: "Cadastrar",
             onTapSecondary: () async {
